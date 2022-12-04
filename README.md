@@ -14,6 +14,6 @@
 ```
 docker pull bitnami/spark:3
 ```
-3. 创建并编写docker-compose.yml
+3. 创建并编写docker-compose.yml，构造1主两从的spark集群环境，方便调试
 4. 执行docker-compose up -d
 5. 服务器安全组配置```:8080```对外，即可通过```公网ip:8080```查看spark页面
