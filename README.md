@@ -5,17 +5,15 @@
 ## 目标
 - 通过简单流程配置搭建分布式可扩充的spark集群
 ## 搭建记录
-### 购置服务器
-### 2022-12-03 服务器环境部署
-[部署参考资料](https://www.jianshu.com/p/d6a406da3cba)
-1.编写dockerfile
+### step1: 购置服务器
+华为云云服务器
+### step2: 2022-12-03 服务器环境部署
+[部署参考资料](https://zhuanlan.zhihu.com/p/421375012)
+1. 服务器安装好docker，docker-compose
+2. 拉取spark镜像
 ```
-FROM openjdk:8-alpine
-RUN apk --update add wget tar bash
-
-RUN wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz
-RUN tar -xzf spark-2.4.0-bin-hadoop2.7.tgz && \
-    mv spark-2.4.0-bin-hadoop2.7 /spark && \
-    rm spark-2.4.0-bin-hadoop2.7.tgz
+docker pull bitnami/spark:3
 ```
-2.运行docker
+3. 创建并编写docker-compose.yml
+4. 执行docker-compose up -d
+5. 服务器安全组配置```:8080```对外，即可通过```公网ip:8080```查看spark页面
