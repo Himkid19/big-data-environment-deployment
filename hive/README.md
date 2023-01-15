@@ -1,3 +1,5 @@
+# HIVE 部署
+
 ## 环境准备
 - Hadoop 3.2.0
 - Hive 3.1.2
@@ -36,4 +38,30 @@ source /etc/profile
 hadoop namenode -format
 # 启动全部
 /usr/local/hadoop/sbin# ./start-all.sh
+```
+
+## 使用docker-compose部署
+1. 使用git获取docker-compose
+```
+git clone git@github.com:big-data-europe/docker-hive.git
+docker-compose up -d
+```
+2. 进入bash
+```
+docker-compose exec hive-server bash
+```
+3. 使用beeline客户端连接
+```
+/opt/hive/bin/beeline -u jdbc:hive2://localhost:10000
+```
+
+## python调用hive
+1. 服务器部署hive服务，对外 `:10000` 端口服务正常
+2. 使用pyhive调用，脚本如下：
+```
+from pyhive import hive
+
+cursor = hive.connect('116.205.160.251').cursor()
+cursor.execute('select count(*) from pokes')
+print(cursor.fetchall())
 ```
