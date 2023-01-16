@@ -1,0 +1,25 @@
+version: "2"
+services:
+  mysqldb:
+    image: registry.cn-hangzhou.aliyuncs.com/public_ns/mysql:5.7
+    container_name: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    mem_limit: 2048M
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    volumes:
+      - /data/docker-data/mysql-data/mysql/:/var/lib/mysql/
+      - /etc/localtime:/etc/localtime
+  myhadoop:
+    image:  acer_hive:v1
+    container_name: hadoop
+    ports:
+      - "32802:22"
+      - "32801:8080"
+      - "32800:8088"
+      - "32799:9000"
+      - "32798:10000"
+      - "32797:10002"
+      - "32796:50070"
