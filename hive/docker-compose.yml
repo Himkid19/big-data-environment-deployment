@@ -8,18 +8,68 @@ services:
       - "3306:3306"
     mem_limit: 2048M
     environment:
-      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_ROOT_PASSWORD=hadoop
     volumes:
       - /data/docker-data/mysql-data/mysql/:/var/lib/mysql/
       - /etc/localtime:/etc/localtime
-  myhadoop:
-    image:  acer_hive:v1
-    container_name: hadoop
+      
+  hadoop-slave1:
+    image: twinsen/hadoop:2.7.2
+    container_name: hadoop-slave1
+    volumes:
+      - "./volume/hadoop/work/slave1:/works"
+      - "./volume/hadoop/logs/slave1:/root/hadoop/logs/"
+      - "./volume/hadoop/tmp/slave1:/tmp"
+    hostname: hadoop-slave1
+    networks:
+      - hadoop-hive
+    tty: true
+  
+  hadoop-slave2:
+    image: twinsen/hadoop:2.7.2
+    container_name: hadoop-slave2
+    volumes:
+      - "./volume/hadoop/work/slave2:/works"
+      - "./volume/hadoop/logs/slave2:/root/hadoop/logs/"
+      - "./volume/hadoop/tmp/slave2:/tmp"
+    hostname: hadoop-slave2
+    networks:
+      - hadoop-hive
+    tty: true
+      
+  hadoop-slave3:
+    image: twinsen/hadoop:2.7.2
+    container_name: hadoop-slave3
+    volumes:
+      - "./volume/hadoop/work/slave3:/works"
+      - "./volume/hadoop/logs/slave3:/root/hadoop/logs/"
+      - "./volume/hadoop/tmp/slave3:/tmp"
+    hostname: hadoop-slave3
+    networks:
+      - hadoop-hive
+    tty: true  
+
+  hadoop-hive:
+    image: acer/hadoop-hive:v1
+    container_name: hadoop-hive-master
     ports:
-      - "32802:22"
-      - "32801:8080"
-      - "32800:8088"
-      - "32799:9000"
-      - "32798:10000"
-      - "32797:10002"
-      - "32796:50070"
+      - "50070:50070"
+      - "8088:8088"
+      - "10002:10002"
+      - "10000:10000"
+    volumes:
+      - "./volume/hadoop/work/master:/works"
+      - "./volume/hadoop/logs/master:/root/hadoop/logs/"
+      - "./volume/hadoop/tmp/master:/tmp"
+      - "./volume/code:/code"
+    hostname: hadoop-master
+    links:
+      - hadoop-slave1
+      - hadoop-slave2
+      - hadoop-slave3      
+    networks:
+      - hadoop-hive
+    tty: true
+
+networks:
+  hadoop-hive:
