@@ -1,0 +1,4 @@
+NAME = acer-trino
+TAG = beta
+
+docker build -t ${NAME}:${TAG}

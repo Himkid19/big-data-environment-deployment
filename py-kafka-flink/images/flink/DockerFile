@@ -1,0 +1,7 @@
+FROM flink:latest
+
+# 设置环境变量  
+ENV FLINK_HOME /opt/flink
+ENV KAFKA_HOME /opt/kafka
+
+RUN wget -P $FLINK_HOME/lib https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka_2.11/1.14.4/flink-sql-connector-kafka_2.11-1.14.4.jar
